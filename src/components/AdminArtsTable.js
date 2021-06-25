@@ -18,14 +18,15 @@ import { Dialog, DialogContent, Theme, DialogTitle,DialogContentText,DialogActio
 import CloseImage from '../assets/close.png'
 import Button from '@material-ui/core/Button';
 import Pagination from '@material-ui/lab/Pagination';
+import {setLoaderFlag} from "../redux/actions/loader.actions"
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: '#fafafa',
+    backgroundColor: '#F7F7FC',
     color: 'black',
   },
   body: {
-    fontSize: 14,
+    fontSize: 14    
   },
 }))(TableCell);
 
@@ -40,18 +41,6 @@ const StyledTableRow = withStyles((theme) => ({
     borderBottom:'0.5px solid #fafafa'
   },
 }))(TableRow);
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 const useStyles = makeStyles({
   table: {
@@ -98,7 +87,8 @@ const useStyles = makeStyles({
     height:'35vw',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat'
+    backgroundRepeat: 'no-repeat',
+    
     // backgroundColor:'red'
   },
   artistTitle:{
@@ -135,18 +125,19 @@ const AdminArtsTable = (props)=> {
   const [showImageDialog,setShowImageDialog] = useState(false)
   const [chosenRow,setChosenRow] = useState(null)
   const [showDeleteDialog,setShowDeleteDialog]= useState(false)
+  const [pageNumber, setPageNumber] = useState(1)
   // const []
-  async function fetchData(){
-    await api().get(`/art?page=1&size=10`)
+  async function fetchData(inputPageNumber){
+    await api().get(`/art?page=${inputPageNumber}&size=5`)
       .then(res=>{
           const data = res.data
           props.setDisplayArt(data.data)
-          props.setPageArts({page:1,data:data.data})
-          setSuccessOpen(true)
-          setSuccessMessage(data.message)
-          setTimeout(()=>{
-              setSuccessOpen(false)
-          },1500)                
+          props.setPageArts({page:inputPageNumber,data:data.data})
+          // setSuccessOpen(true)
+          // setSuccessMessage(data.message)
+          // setTimeout(()=>{
+          //     setSuccessOpen(false)
+          // },1500)                
       })
       .catch(err=>{
         if(
@@ -168,14 +159,20 @@ const AdminArtsTable = (props)=> {
   useEffect( ()=>{
         
         if(!props.pageArts[1]){
-            fetchData();
+          setPageNumber(1)
+            fetchData(1);
         }else{
             props.setDisplayArt(props.pageArts["1"])
             // console.log("props.pageArts",props.pageArts)
             // console.log("will not fetch")
         }
         // console.log("props.pageArts",props.pageArts)
-        
+        return () => {
+          // alert('text')
+          props.setLoaderFlag(false)
+          console.log("in calllll")
+          // props.clearSessionStorage()
+        }
     
   },[])  
   const handleSeeDetailsClick = (clickedRow)=>{
@@ -207,7 +204,7 @@ const AdminArtsTable = (props)=> {
           },1500)
           setShowDeleteDialog(false)
           setChosenRow(null)   
-          await fetchData()             
+          await fetchData(pageNumber)             
       })
       .catch(err=>{
         if(
@@ -227,6 +224,11 @@ const AdminArtsTable = (props)=> {
       })
     }
   }
+  const pageNumberClicked = async (clickValue,clickEvent) =>{
+    setPageNumber(clickValue)
+    console.log("clickEvent, clickValue",clickEvent, clickValue)
+    await fetchData(clickValue)
+  }
   return (
     <div>
         <Typography variant="h6" noWrap style={{color:'black',fontWeight:'600',marginBottom:'15px'}}>
@@ -236,11 +238,11 @@ const AdminArtsTable = (props)=> {
           <Table className={classes.table} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell style={{width:'10%'}}>Item</StyledTableCell>
-                <StyledTableCell style={{width:'20%'}}>Name</StyledTableCell>
-                <StyledTableCell style={{width:'20'}}>Artist</StyledTableCell>
-                <StyledTableCell style={{width:'40%'}}>Description</StyledTableCell>
-                <StyledTableCell style={{width:'10%'}}>Action</StyledTableCell>
+                <StyledTableCell style={{width:'10%',fontWeight:'bold'}}>Item</StyledTableCell>
+                <StyledTableCell style={{width:'20%',fontWeight:'bold'}}>Name</StyledTableCell>
+                <StyledTableCell style={{width:'20',fontWeight:'bold'}}>Artist</StyledTableCell>
+                <StyledTableCell style={{width:'40%',fontWeight:'bold'}}>Description</StyledTableCell>
+                <StyledTableCell style={{width:'10%',fontWeight:'bold'}}>Action</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -257,8 +259,8 @@ const AdminArtsTable = (props)=> {
                 <td align="left">
                 {artObject.artist}</td>
                 <td >
-                {artObject.description.length > 150 ?
-                `${artObject.description.substring(0, 150)}...` : artObject.description}
+                {artObject.description.length > 135 ?
+                `${artObject.description.substring(0, 135)}...` : artObject.description}
                 {/* <br /> */}
                 <div  style={{marginTop:'5px'}}>
                   <span 
@@ -280,7 +282,7 @@ const AdminArtsTable = (props)=> {
           </Table>
           <div class="row align-center">
             <div className="column shrink">
-              <Pagination onClick={(value)=>{console.log(value)}} count={10} variant="outlined" shape="rounded" />
+              <Pagination onChange={(event, value)=>{pageNumberClicked((event, value))}}  count={10} variant="outlined" shape="rounded" />
             </div>
           </div>
           
@@ -352,6 +354,7 @@ const mapDispatchToProps = dispatch => {
     return {
         setDisplayArt: (value) => dispatch(setDisplayArt(value)),
         setPageArts:(value)=>dispatch(setPageArts(value)),
+        setLoaderFlag:(v)=>dispatch(setLoaderFlag(v))
         // setSingleArt:(value)=>{dispatch}
     }
 }

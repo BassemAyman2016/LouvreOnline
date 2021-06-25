@@ -164,17 +164,6 @@ const AdminsPage = (props) => {
         })}
       >
         <Toolbar>
-          {/* <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton> */}
           <Typography variant="h6" noWrap style={{color:'black',fontWeight:'600'}}>
             Louvre
           </Typography>
@@ -184,9 +173,6 @@ const AdminsPage = (props) => {
             <br />
             <span style={{fontSize:'11px'}}>Admin</span>
           </Typography>
-          
-          
-          
         </Toolbar>
       </AppBar>
       <Drawer

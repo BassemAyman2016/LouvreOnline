@@ -19,8 +19,10 @@ const reducer = (state = INITIAL_STATE, action) => {
             user_info:null
           };
       case SET_TOKEN:
+        console.log("in SETTOKEN",action.payload)
         const newState = state;
         newState["token"] = action.payload;
+        console.log("newState",newState)
         return newState;
         
       case SET_USER_INFO:

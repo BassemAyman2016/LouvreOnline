@@ -77,7 +77,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 return {
     setLoaderFlag: v => dispatch(setLoaderFlag(v)),
-    setToken: v => dispatch(setToken(v)),
+    setToken: v =>{console.log("inDef"); return dispatch(setToken(v))},
     setUserInfo: v => dispatch(setUserInfo(v))
     // decreaseCounter: () => dispatch(decreaseCounter()),
 }
@@ -99,7 +99,9 @@ const LoginPage = (props) => {
         await api().post('/login',{user_name:userNameField,password:passwordField})
         .then(res=>{
             const data = res.data
+            console.log("in login response",data)
             props.setToken(data.token)
+            console.log("after setToken")
             props.setUserInfo(data.info)
             setSuccessOpen(true)
             const userRole = data.info.type
@@ -110,7 +112,7 @@ const LoginPage = (props) => {
                     case "GUEST": history.push('/guests');break;
                     default: ;
                 }
-            },1500)
+            },3000)
             
             
         })

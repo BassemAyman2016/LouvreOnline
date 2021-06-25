@@ -1,4 +1,5 @@
+export const SET_DISPLAY_USERS = 'SET_DISPLAY_USERS';
 
-export const GET_USERS = 'GET_USERS';
+export const SET_PAGE_USERS = 'SET_PAGE_USERS';
 
-export const FETCH_USERS = 'FETCH_USERS';
+export const CLEAR_USERS = 'CLEAR_USERS';
