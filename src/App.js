@@ -1,5 +1,5 @@
 
-import React from "react"
+import React,{ useEffect } from "react"
 import "./App.css"
 import { connect } from "react-redux"
 import {
@@ -9,15 +9,15 @@ import {
 import LoginPage from "./pages/LoginPage"
 import AdminsPage from "./pages/AdminsPage"
 import GuestsPage from "./pages/GuestsPage"
-import RegisterPage from "./pages/RegisterPage"
+// import RegisterPage from "./pages/RegisterPage"
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { clearSessionStorage} from "./redux/actions/session.actions"
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  // Link
 } from "react-router-dom";
 const useStyles = makeStyles({ 
   'spinner-container':{
@@ -42,6 +42,16 @@ const useStyles = makeStyles({
   }
 })
 function App(props) {
+  useEffect(() => {
+    console.log("tokennn",props.token)
+    console.log("user_info",props.user_info)
+    // returned function will be called on component unmount 
+    return () => {
+      // alert('text')
+      console.log("in calllll")
+      // props.clearSessionStorage()
+    }
+  }, [])
   const classes = useStyles();
   const flag = false
   return (
@@ -88,6 +98,8 @@ function App(props) {
 const mapStateToProps = state => {
   return {
     displayFlag: state.loader.displayLoader,
+    token:state.session.token,
+    user_info:state.session.user_info
   }
 }
 
@@ -96,6 +108,7 @@ const mapDispatchToProps = dispatch => {
     increaseCounter: () => dispatch(increaseCounter()),
 
     decreaseCounter: () => dispatch(decreaseCounter()),
+    clearSessionStorage: () => dispatch(clearSessionStorage())
   }
 }
 

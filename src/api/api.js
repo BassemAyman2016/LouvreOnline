@@ -4,11 +4,12 @@ import reduxIndex from '../redux/index'
 const {store} = reduxIndex()
 require('dotenv').config()
 const api = () => {
+  console.log("store",store.getState())
   var apiObject = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
       // eslint-disable-next-line no-undef
-      Authorization: sessionStorage.getItem('accessToken')
+      Authorization: store.getState().session.token
     }
   })
   apiObject.interceptors.request.use(

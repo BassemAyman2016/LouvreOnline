@@ -1,13 +1,8 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import LaptopImage from "../assets/bg.png";
-import Paper from '@material-ui/core/Paper';
+import BackImage from "../assets/bg.png";
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import { connect } from "react-redux"
@@ -23,7 +18,7 @@ const useStyles = makeStyles({
         width:'100vw',
         height:'100vh',
         // backgroundColor:'lightblue',
-        backgroundImage: `url(${LaptopImage})`,
+        backgroundImage: `url(${BackImage})`,
         position:'relative',
         backgroundSize:'cover',
         backgroundRepeat: 'no-repeat',
@@ -68,7 +63,7 @@ const useStyles = makeStyles({
         color:'white',
         borderRadius:'5px'
     }
-  });
+});
 
 //   <button onClick={()=>{history.push("/admins");}}>Go To Admins</button>
 //   <button onClick={()=>{history.push("/guests");}}>Go To Guests</button>
@@ -115,7 +110,7 @@ const LoginPage = (props) => {
                     case "GUEST": history.push('/guests');break;
                     default: ;
                 }
-            },3000)
+            },1500)
             
             
         })

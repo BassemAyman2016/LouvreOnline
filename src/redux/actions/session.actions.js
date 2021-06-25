@@ -1,4 +1,4 @@
-import {SET_USER_INFO,CLEAR_USER_INFO, SET_TOKEN, CLEAR_TOKEN} from "../types/session.types"
+import {SET_USER_INFO,CLEAR_USER_INFO, SET_TOKEN, CLEAR_TOKEN, CLEAR_SESSION_STORAGE} from "../types/session.types"
 
 export const setUserInfo = (payload) => {
     return {
@@ -21,5 +21,10 @@ export const setToken = (payload) => {
 export const clearToken = () => {
     return {
         type: CLEAR_TOKEN
+    };
+};
+export const clearSessionStorage = () => {
+    return {
+        type: CLEAR_SESSION_STORAGE
     };
 };
