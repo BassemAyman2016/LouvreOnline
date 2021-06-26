@@ -230,6 +230,16 @@ const AdminArtsTable = (props)=> {
     console.log("clickEvent, clickValue",clickEvent, clickValue)
     await fetchData(clickValue)
   }
+  const imageGuard=(inputImage)=>{
+    console.log("inputImage",inputImage)
+    if(inputImage.match(/\.(jpeg|jpg|gif|png)$/) != null 
+    // inputImage.includes(".png")||inputImage.includes(".jpeg")
+    ){
+      return inputImage
+    }else{
+      return "https://via.placeholder.com/500"
+    }
+  }
   return (
     <div>
         <Typography variant="h6" noWrap style={{color:'black',fontWeight:'600',marginBottom:'15px'}}>
@@ -250,8 +260,7 @@ const AdminArtsTable = (props)=> {
             {props.displayArts.map((artObject) => (
             <StyledTableRow key={artObject._id}>
                 <td component="th" scope="artObject">
-                  {/* {artObject.picture} */}
-                  <div className={classes.imageContainer} style={{backgroundImage:"url(" + artObject.picture + ")"}}></div>
+                  <div className={classes.imageContainer} style={{backgroundImage:"url(" + imageGuard(artObject.picture) + ")"}}></div>
                 </td>
                 <td style={{height:'100%'}} >
                   <div style={{height:'100%',display:'inline'}}>{artObject.name}</div>
@@ -312,7 +321,7 @@ const AdminArtsTable = (props)=> {
             <div className={classes.singleImageContainer}>
               <div 
                 className={classes.singleImageWrapper}
-                style={{backgroundImage:"url(" + chosenRow.picture + ")"}}
+                style={{backgroundImage:"url(" + imageGuard(chosenRow.picture) + ")"}}
               ></div>
               <div className={classes.artistTitle}>{chosenRow.artist}</div>
               <div className={classes.artDesc}>{chosenRow.description}</div>

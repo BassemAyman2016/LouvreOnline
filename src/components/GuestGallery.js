@@ -172,6 +172,16 @@ const GuestGallery = (props) => {
       // console.log("clickEvent, clickValue",clickEvent, clickValue)
       await fetchData(clickValue)
     }
+    const imageGuard=(inputImage)=>{
+      if(
+        // inputImage.includes(".png")||inputImage.includes(".jpeg")
+        inputImage.match(/\.(jpeg|jpg|gif|png)$/) != null 
+        ){
+        return inputImage
+      }else{
+        return "https://via.placeholder.com/500"
+      }
+    }
     return (
         <div>
         <div className="row">
@@ -183,7 +193,7 @@ const GuestGallery = (props) => {
                 return (
                     <div className="column small-3" style={{marginBottom:'40px'}} key={artObject._id} >
                         <div className={classes.cardContainer} onClick={()=>{handleSeeDetailsClick(artObject)}} >
-                            <div className={classes.imageWrapper} style={{backgroundImage:"url(" + artObject.picture + ")"}}></div>
+                            <div className={classes.imageWrapper} style={{backgroundImage:"url(" + imageGuard(artObject.picture) + ")"}}></div>
                             <div className={classes.artistName}>{artObject.artist}</div>
                         </div>
                     </div>
@@ -209,7 +219,7 @@ const GuestGallery = (props) => {
                     <div className={classes.singleImageContainer}>
                     <div 
                         className={classes.singleImageWrapper}
-                        style={{backgroundImage:"url(" + chosenRow.picture + ")"}}
+                        style={{backgroundImage:"url(" + imageGuard(chosenRow.picture) + ")"}}
                     ></div>
                     <div className={classes.artistTitle}>{chosenRow.artist}</div>
                     <div className={classes.artDesc}>{chosenRow.description}</div>
