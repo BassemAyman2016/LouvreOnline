@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import clsx from 'clsx';
@@ -79,7 +79,7 @@ const GuestsPage = (props) => {
     const history = useHistory();
     const classes = useStyles();
     // const theme = useTheme();
-    const [open, setOpen] = useState(false);
+    const open = false;
 
     const handleLogout = () =>{
         props.clearSessionStorage()

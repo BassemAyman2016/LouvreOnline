@@ -9,7 +9,6 @@ const reducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
 
         case INCREMENT:
-            console.log("state",state)
             return {
 
               ...state, 

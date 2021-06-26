@@ -1,13 +1,14 @@
 import React, {useEffect,useState} from 'react'
 import api from "../api/api.js"
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import {  makeStyles } from '@material-ui/core/styles';
 import { connect } from "react-redux"
 import  {setDisplayArt,setPageArts} from "../redux/actions/art.actions"
 import Pagination from '@material-ui/lab/Pagination';
 import {setLoaderFlag} from "../redux/actions/loader.actions"
-import Typography from '@material-ui/core/Typography';
 import CloseImage from '../assets/close.png'
-import { Dialog, DialogContent, Theme, DialogTitle,DialogContentText,DialogActions } from "@material-ui/core";
+import { Dialog } from "@material-ui/core";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles({
     table: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles({
       backgroundColor:'rgba(250,250,250,0.4)'
     },
     singleImageContainer:{
-      width:'35vw',
+      width:'70vh',
       backgroundColor:'white',
       borderRadius:'10px',
       position:'relative',
@@ -50,8 +51,8 @@ const useStyles = makeStyles({
     },
     singleImageWrapper:{
       display:'inline-block',
-      width:'35vw',
-      height:'35vw',
+      width:'70vh',
+      height:'70vh',
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
@@ -109,9 +110,9 @@ const useStyles = makeStyles({
     }
   });
 const GuestGallery = (props) => {
-    const [successOpen, setSuccessOpen] = useState(false);
+    // const [successOpen, setSuccessOpen] = useState(false);
     const [failureOpen, setFailureOpen] = useState(false);
-    const [successMessage,setSuccessMessage]=useState('');
+    // const [successMessage,setSuccessMessage]=useState('');
     const [failureMessage,setFailureMessage]=useState('');
     const [pageNumber, setPageNumber] = useState(1)
     const classes = useStyles();
@@ -149,19 +150,20 @@ const GuestGallery = (props) => {
     }
     useEffect( ()=>{
         
-            setPageNumber(1)
-            fetchData(1);
-            // props.setDisplayArt(props.pageArts["1"])
-            // console.log("props.pageArts",props.pageArts)
-            // console.log("will not fetch")
+      setPageNumber(1)
+      fetchData(1);
+      // props.setDisplayArt(props.pageArts["1"])
+      // console.log("props.pageArts",props.pageArts)
+      // console.log("will not fetch")
         
-        // console.log("props.pageArts",props.pageArts)
-        return () => {
-            // alert('text')
-            props.setLoaderFlag(false)
-            console.log("in calllll")
-            // props.clearSessionStorage()
-        }
+      // console.log("props.pageArts",props.pageArts)
+      return () => {
+          // alert('text')
+          props.setLoaderFlag(false)
+          // console.log("in calllll")
+          // props.clearSessionStorage()
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]) 
     const handleSeeDetailsClick = (clickedRow)=>{
         setChosenRow(clickedRow)
@@ -181,6 +183,9 @@ const GuestGallery = (props) => {
       }else{
         return "https://via.placeholder.com/500"
       }
+    }
+    function Alert(props) {
+      return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
     return (
         <div>
@@ -202,7 +207,7 @@ const GuestGallery = (props) => {
             <div className="column small-12">
               <div class="row align-center">
                 <div className="column shrink">
-                  <Pagination onChange={(event, value)=>{pageNumberClicked((event, value))}}  count={10} variant="outlined" shape="rounded" />
+                  <Pagination page={pageNumber} onChange={(event, value)=>{pageNumberClicked((event, value))}}  count={10} variant="outlined" shape="rounded" />
                 </div>
               </div>
             </div>
@@ -228,6 +233,11 @@ const GuestGallery = (props) => {
                 :""}
                 
             </Dialog>
+            <Snackbar open={failureOpen} autoHideDuration={6000} >
+                <Alert severity="error">
+                    {failureMessage}
+                </Alert>
+            </Snackbar>
 
         </div>
             

@@ -9,12 +9,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import api from "../api/api.js"
-import  {clearSessionStorage} from "../redux/actions/session.actions"
-import  {setDisplayArt,setPageArts,clearArts,setSingleArt} from "../redux/actions/art.actions"
+// import  {clearSessionStorage} from "../redux/actions/session.actions"
+import  {setDisplayArt,setPageArts} from "../redux/actions/art.actions"
 import { connect } from "react-redux"
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import { Dialog, DialogContent, Theme, DialogTitle,DialogContentText,DialogActions } from "@material-ui/core";
+import { Dialog,   DialogTitle,DialogActions } from "@material-ui/core";
 import CloseImage from '../assets/close.png'
 import Button from '@material-ui/core/Button';
 import Pagination from '@material-ui/lab/Pagination';
@@ -75,7 +75,7 @@ const useStyles = makeStyles({
     backgroundColor:'rgba(250,250,250,0.4)'
   },
   singleImageContainer:{
-    width:'35vw',
+    width:'70vh',
     backgroundColor:'white',
     borderRadius:'10px',
     position:'relative',
@@ -83,8 +83,8 @@ const useStyles = makeStyles({
   },
   singleImageWrapper:{
     display:'inline-block',
-    width:'35vw',
-    height:'35vw',
+    width:'70vh',
+    height:'70vh',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
@@ -159,30 +159,22 @@ const AdminArtsTable = (props)=> {
   }
   useEffect( ()=>{
         
-        if(!props.pageArts[1]){
-          setPageNumber(1)
-            fetchData(1);
-        }else{
-            props.setDisplayArt(props.pageArts["1"])
-            // console.log("props.pageArts",props.pageArts)
-            // console.log("will not fetch")
-        }
-        // console.log("props.pageArts",props.pageArts)
-        return () => {
-          // alert('text')
-          props.setLoaderFlag(false)
-          console.log("in calllll")
-          // props.clearSessionStorage()
-        }
-    
+    setPageNumber(1)
+    fetchData(1);
+    // props.setDisplayArt(props.pageArts["1"])
+    return () => {
+      // alert('text')
+      props.setLoaderFlag(false)
+      // console.log("in calllll")
+      // props.clearSessionStorage()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])  
   const handleSeeDetailsClick = (clickedRow)=>{
     setChosenRow(clickedRow)
     setShowImageDialog(true)
   }
-  const handleCloseDeleteDialog = ()=>{
-    setShowDeleteDialog(false)
-  }
+  
   const deleteButtonClicked = (obj)=>{
     setChosenRow(obj)
     setShowDeleteDialog(true)
@@ -227,11 +219,9 @@ const AdminArtsTable = (props)=> {
   }
   const pageNumberClicked = async (clickValue,clickEvent) =>{
     setPageNumber(clickValue)
-    console.log("clickEvent, clickValue",clickEvent, clickValue)
     await fetchData(clickValue)
   }
   const imageGuard=(inputImage)=>{
-    console.log("inputImage",inputImage)
     if(inputImage.match(/\.(jpeg|jpg|gif|png)$/) != null 
     // inputImage.includes(".png")||inputImage.includes(".jpeg")
     ){
@@ -259,7 +249,7 @@ const AdminArtsTable = (props)=> {
             <TableBody>
             {props.displayArts.map((artObject) => (
             <StyledTableRow key={artObject._id}>
-                <td component="th" scope="artObject">
+                <td component="th" >
                   <div className={classes.imageContainer} style={{backgroundImage:"url(" + imageGuard(artObject.picture) + ")"}}></div>
                 </td>
                 <td style={{height:'100%'}} >

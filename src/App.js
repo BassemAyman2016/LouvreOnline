@@ -15,12 +15,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { clearSessionStorage} from "./redux/actions/session.actions"
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  
+  Route  
   // Link
 } from "react-router-dom";
-import { useHistory,Redirect } from 'react-router';
+import { Redirect } from 'react-router';
 
 
 const useStyles = makeStyles({ 
@@ -46,7 +44,6 @@ const useStyles = makeStyles({
   }
 })
 function App(props) {
-  const history = useHistory();
 
   useEffect(() => {
     // returned function will be called on component unmount 
@@ -69,7 +66,7 @@ function App(props) {
         }else{
           return <LoginPage/>
         }
-      break;
+      // break;
       case "/guests":
         if(isLogged){
           if(userType==="ADMIN"){
@@ -80,7 +77,7 @@ function App(props) {
         }else{
           return <Redirect to="/"/>
         }
-      break;
+      // break;
       case "/admins":
         if(isLogged){
           if(userType==="ADMIN"){
@@ -91,7 +88,7 @@ function App(props) {
         }else{
           return <Redirect to="/"/>
         }
-      break;
+      // break;
       default: return <LoginPage/>
     }
   }

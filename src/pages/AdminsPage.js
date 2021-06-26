@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react'
+import React, {useState} from 'react'
 import  {clearSessionStorage} from "../redux/actions/session.actions"
 import { clearArts} from "../redux/actions/art.actions"
 import { connect } from "react-redux"
@@ -13,17 +13,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+// import PublishIcon from '@material-ui/icons/Publish';
 import SvgIcon from '@material-ui/core/SvgIcon';
-import Icon from '@material-ui/core/Icon';
 import { ReactComponent as ArtUnselected } from "../assets/artSel.svg";
 import { ReactComponent as ArtSelected } from "../assets/artUnsel.svg";
 import { ReactComponent as UserSelected } from "../assets/user4.svg";
@@ -119,16 +113,11 @@ const AdminsPage = (props) => {
       selected:false,
       selectedIcon:'user2',
       unSelectedIcon:'user2'
-    }
+    },
+    
   ])
   const [selectedDisplay,setSelectedDisplay]=useState('art')
   
-
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -147,7 +136,6 @@ const AdminsPage = (props) => {
       setSelectedDisplay('user')
     }
     setSideBarIcons(newArray)
-    console.log("clickedIndex",clickedIndex)
   }
   const handleLogout = () =>{
     props.clearSessionStorage()
@@ -155,6 +143,14 @@ const AdminsPage = (props) => {
     props.clearUsers()
     sessionStorage.clear()
     history.push('/')
+  }
+  const getIconComponent = (currentIndex) =>{
+    switch(currentIndex){
+      case 0:break;
+      case 1:break;
+      case 2:break;
+      default:break;
+    }
   }
   return (
     <div className={classes.root}>

@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react'
 import { connect } from "react-redux"
-import  {setDisplayArt,setPageArts,clearArts,setSingleArt} from "../redux/actions/art.actions"
+// import  {setDisplayArt,setPageArts,clearArts,setSingleArt} from "../redux/actions/art.actions"
 import {setLoaderFlag} from "../redux/actions/loader.actions"
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
@@ -121,20 +121,18 @@ function Alert(props) {
 
 const AdminUsersTable = (props) => {
     const classes = useStyles();
-    const [successOpen, setSuccessOpen] = useState(false);
+    // const [successOpen, setSuccessOpen] = useState(false);
     const [failureOpen, setFailureOpen] = useState(false);
-    const [successMessage,setSuccessMessage]=useState('');
+    // const [successMessage,setSuccessMessage]=useState('');
     const [failureMessage,setFailureMessage]=useState('');
     const [pageNumber, setPageNumber] = useState(1)
     async function fetchData(inputPageNumber){
         await api().get(`/users?page=${inputPageNumber}&size=5`)
           .then(res=>{
               const responseData = res.data
-              //{setDisplayUsers, setPageUsers, clearUsers }
               props.setDisplayUsers(responseData.data)
               props.setPageUsers({page:inputPageNumber,data:responseData.data})      
-              console.log("data",responseData)      
-              console.log("props.user",props.user)      
+                   
           })
           .catch(err=>{
             console.log("err",err)
@@ -157,24 +155,23 @@ const AdminUsersTable = (props) => {
     useEffect( ()=>{
         
        
-            setPageNumber(1)
-            fetchData(1);
-            // props.setDisplayArt(props.pageArts["1"])
-            // console.log("props.pageArts",props.pageArts)
-            // console.log("will not fetch")
+      setPageNumber(1)
+      fetchData(1);
+      // props.setDisplayArt(props.pageArts["1"])
+      // console.log("props.pageArts",props.pageArts)
+      // console.log("will not fetch")
         
         // console.log("props.pageArts",props.pageArts)
-        return () => {
-            // alert('text')
-            // props.setLoaderFlag(false)
-            // console.log("in calllll")
-            // props.clearSessionStorage()
-        }
-
+      return () => {
+          props.setLoaderFlag(false)
+          // alert('text')
+          // props.setLoaderFlag(false)
+          // console.log("in calllll")
+          // props.clearSessionStorage()
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]) 
-    const placeholder = (s)=>{
-      console.log(s)
-    }
+    
     const pageNumberClicked = async (clickValue,clickEvent) =>{
       setPageNumber(clickValue)
       // console.log("clickEvent, clickValue",clickEvent, clickValue)
@@ -227,11 +224,11 @@ const AdminUsersTable = (props) => {
               </div>
               
             </TableContainer>
-            <Snackbar open={successOpen} autoHideDuration={6000} >
+            {/* <Snackbar open={successOpen} autoHideDuration={6000} >
                 <Alert severity="success">
                     {successMessage}
                 </Alert>
-            </Snackbar>  
+            </Snackbar>   */}
             <Snackbar open={failureOpen} autoHideDuration={6000} >
                 <Alert severity="error">
                     {failureMessage}
@@ -254,8 +251,8 @@ const mapDispatchToProps = dispatch => {
     return {
         setDisplayUsers: (value) => dispatch(setDisplayUsers(value)),
         setPageUsers:(value)=>dispatch(setPageUsers(value)),
-        clearUsers:()=>dispatch(clearUsers())
-        // setSingleArt:(value)=>{dispatch}
+        clearUsers:()=>dispatch(clearUsers()),
+        setLoaderFlag:(value)=>{dispatch(setLoaderFlag(value))}
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AdminUsersTable)
