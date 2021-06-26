@@ -1,7 +1,7 @@
 const UserModel = require('../models/users')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const tokenKey = require('../config/setup').secretOrKey
+const tokenKey = require('../config/setup').secretOrKey||'secret'
 const loginService = async function (req, res) {
   try {
     const { user_name, password } = req.body

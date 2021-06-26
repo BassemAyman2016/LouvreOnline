@@ -3,7 +3,8 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const router = require('./routes/index')
-const db = require('./config/setup').MONGO_URI
+const config = require('./config/setup')
+const db = config.MONGO_URI || 'mongodb://mongo:27017/docker-node-mongo'
 
 const app = express()
 
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
     res.send(`<h1>Welcome to Louvre-Online Backend</h1>`)
 })
 
-const port = process.env.PORT || 3000;
+const port = config.PORT || 4000 ;
 app.listen(port, (req, res) => {
     console.log(`Server up and running on port ${port}`)
 })

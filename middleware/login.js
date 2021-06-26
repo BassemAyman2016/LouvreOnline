@@ -1,4 +1,4 @@
-const tokenKey = require('../config/setup').secretOrKey
+const tokenKey = require('../config/setup').secretOrKey||'secret'
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
 
