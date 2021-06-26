@@ -92,8 +92,9 @@ const useStyles = makeStyles({
     // backgroundColor:'red'
   },
   artistTitle:{
-    color:'blue',
-    padding:'10px 15px'
+    color:'#208BEB',
+    padding:'10px 15px',
+    fontWeight:'bold'
   },
   artDesc:{
     padding:'10px 15px'

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -78,16 +78,23 @@ const useStyles = makeStyles((theme) => ({
 const GuestsPage = (props) => {
     const history = useHistory();
     const classes = useStyles();
-    const theme = useTheme();
+    // const theme = useTheme();
+    const [open, setOpen] = useState(false);
+
     const handleLogout = () =>{
         props.clearSessionStorage()
         props.clearArts()
+        sessionStorage.clear()
         history.push('/')
       }
     return (
         <div>
             <CssBaseline />
-            <AppBar  position="fixed">
+            <AppBar  position="fixed"
+              className={clsx(classes.appBar, {
+                [classes.appBarShift]: open,
+              })}
+            >
                 <Toolbar>
                     <Typography variant="h6" noWrap style={{color:'black',fontWeight:'600'}}>
                         Louvre
@@ -96,7 +103,7 @@ const GuestsPage = (props) => {
                     <Typography  noWrap style={{color:'black', cursor:'pointer'}} title="Logout" onClick={()=>handleLogout()}>
                         <span style={{fontWeight:'bold',fontSize:'16px'}}>{props.user_info.user_name}</span>
                         <br />
-                        <span style={{fontSize:'11px'}}>Admin</span>
+                        <span style={{fontSize:'11px'}}>Guest</span>
                     </Typography>
                 </Toolbar>
             </AppBar>

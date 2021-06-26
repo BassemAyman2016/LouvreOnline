@@ -17,8 +17,12 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  
   // Link
 } from "react-router-dom";
+import { useHistory,Redirect } from 'react-router';
+
+
 const useStyles = makeStyles({ 
   'spinner-container':{
     top: 0,
@@ -42,18 +46,56 @@ const useStyles = makeStyles({
   }
 })
 function App(props) {
+  const history = useHistory();
+
   useEffect(() => {
-    console.log("tokennn",props.token)
-    console.log("user_info",props.user_info)
     // returned function will be called on component unmount 
     return () => {
       // alert('text')
-      console.log("in calllll")
       // props.clearSessionStorage()
     }
   }, [])
+  const getComponent = (selectedRoute) =>{
+    const isLogged = sessionStorage.getItem("accessToken")
+    const userType = props.user_info&&props.user_info.type?props.user_info.type:null
+    switch(selectedRoute){
+      case "/":
+        if(isLogged){
+          if(userType==="ADMIN"){
+            return <Redirect to="/admins"/>
+          }else{
+            return <Redirect to="/guests"/>
+          }
+        }else{
+          return <LoginPage/>
+        }
+      break;
+      case "/guests":
+        if(isLogged){
+          if(userType==="ADMIN"){
+            return <Redirect to="/admins"/>
+          }else{
+            return <GuestsPage/>
+          }
+        }else{
+          return <Redirect to="/"/>
+        }
+      break;
+      case "/admins":
+        if(isLogged){
+          if(userType==="ADMIN"){
+            return <AdminsPage/>
+          }else{
+            return <Redirect to="/guests"/>
+          }
+        }else{
+          return <Redirect to="/"/>
+        }
+      break;
+      default: return <LoginPage/>
+    }
+  }
   const classes = useStyles();
-  const flag = false
   return (
     <div className="App">
       
@@ -67,18 +109,16 @@ function App(props) {
       </div>:
       ""
       }
-      
-      {/* <div>Count: {props.count}</div>
-
-      <button onClick={() => props.increaseCounter()}>Increase Count</button>
-
-      <button onClick={() => props.decreaseCounter()}>Decrease Count</button> */}
       <Router>
+				<Route exact path="/" render={() => getComponent('/')} />
+				<Route exact path="/guests" render={() => getComponent('/guests')} />
+				<Route exact path="/admins" render={() => getComponent('/admins')} />
+			</Router>
       <div>
         
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
+        {/* <Switch>
           <Route path="/guests">
             <GuestsPage />
           </Route>
@@ -88,9 +128,8 @@ function App(props) {
           <Route path="/">
             <LoginPage />
           </Route>
-        </Switch>
+        </Switch> */}
       </div>
-    </Router>
     </div>
   )
 }

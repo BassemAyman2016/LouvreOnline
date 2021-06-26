@@ -14,6 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import MuiAlert from '@material-ui/lab/Alert';
 import Pagination from '@material-ui/lab/Pagination';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import api from "../api/api.js"
 import {setDisplayUsers, setPageUsers, clearUsers } from "../redux/actions/user.actions.js"
@@ -136,6 +137,7 @@ const AdminUsersTable = (props) => {
               console.log("props.user",props.user)      
           })
           .catch(err=>{
+            console.log("err",err)
             if(
               err && 
               err.response &&
@@ -225,6 +227,16 @@ const AdminUsersTable = (props) => {
               </div>
               
             </TableContainer>
+            <Snackbar open={successOpen} autoHideDuration={6000} >
+                <Alert severity="success">
+                    {successMessage}
+                </Alert>
+            </Snackbar>  
+            <Snackbar open={failureOpen} autoHideDuration={6000} >
+                <Alert severity="error">
+                    {failureMessage}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

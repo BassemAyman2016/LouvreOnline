@@ -31,7 +31,7 @@ import { ReactComponent as UserUnselected } from "../assets/user2.svg";
 import AdminArtsTable from '../components/AdminArtsTable';
 import AdminUsersTable from '../components/AdminUsersTable';
 import { useHistory } from 'react-router';
-
+import { clearUsers } from '../redux/actions/user.actions';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -152,6 +152,8 @@ const AdminsPage = (props) => {
   const handleLogout = () =>{
     props.clearSessionStorage()
     props.clearArts()
+    props.clearUsers()
+    sessionStorage.clear()
     history.push('/')
   }
   return (
@@ -169,7 +171,7 @@ const AdminsPage = (props) => {
           </Typography>
           <div className={classes.content} />
           <Typography  noWrap style={{color:'black', cursor:'pointer'}} title="Logout" onClick={()=>handleLogout()}>
-            <span style={{fontWeight:'bold',fontSize:'16px'}}>{props.user_info.user_name}</span>
+            <span style={{fontWeight:'bold',fontSize:'16px'}}>{props.user_info&&props.user_info.user_name?props.user_info.user_name:''}</span>
             <br />
             <span style={{fontSize:'11px'}}>Admin</span>
           </Typography>
@@ -194,7 +196,7 @@ const AdminsPage = (props) => {
           </IconButton>
         </div>
         <Divider />
-        <List>
+        <List disablePadding="true">
           {sideBarIcons.map((singleObject, index) => (
             <ListItem style={{backgroundColor:singleObject.selected?'#5C33F6':''}} button onClick={()=>{iconCLicked(index)}}  key={singleObject.selectedIcon}>
             {index===0? 
@@ -247,7 +249,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     clearSessionStorage: () => dispatch(clearSessionStorage()),
-    clearArts: () => dispatch(clearArts())
+    clearArts: () => dispatch(clearArts()),
+    clearUsers:()=>dispatch(clearUsers())
   }
 }
   
