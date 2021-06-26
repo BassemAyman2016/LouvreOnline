@@ -57,8 +57,7 @@ const deleteArtController = async (req,res) => {
     if(!checkIsAdmin){
         return res.status(401).send({ status: 'failure', message: 'Unauthorized access' }); 
     }
-    const valid_params = req.body && req.body.id
-        
+    const valid_params = req.query && req.query.id
     if(!valid_params){
         return res.status(400).send({ status: 'failure', message: 'Paramters are missing' });    
     }

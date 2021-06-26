@@ -70,7 +70,7 @@ async function editArtService (req,res) {
 const deleteArtService = async function  (req,res) {
     
   try {
-    const artId = req.body.id 
+    const artId = req.query.id 
     const checkArtExists = await ArtModel.findById(artId)
     if(!checkArtExists){
       return res.status(400).send({ status: 'failure', message: 'Art does not exist' })
