@@ -29,7 +29,7 @@ const useStyles = makeStyles({
         left:'50%',
         top:'50%',
         transform:'translate(-50%,-50%)',
-        width:'35vw'
+        width:'75vh'
     },
     'title-area':{
     // display:'flex',
@@ -62,6 +62,14 @@ const useStyles = makeStyles({
         cursor:'pointer',
         color:'white',
         borderRadius:'5px'
+    },
+    registerLink:{
+        color:'#5C33F6',
+        textDecoration:'underline',
+        '&:hover':{
+            color:'blue',
+            cursor:'pointer',
+        }
     }
 });
 
@@ -136,7 +144,9 @@ const LoginPage = (props) => {
         if(e.code==='Enter')
             await loginClicked()
     }
-    
+    const registerCLicked = () =>{
+        history.push('/register')
+    }
     return (
         <div className={classes['login-container']}>
             <Card className={classes.root}>
@@ -150,33 +160,34 @@ const LoginPage = (props) => {
                     </div>
                 </div>                
                 <Divider variant="middle" />
-                <div className="row" style={{margin:'50px'}}>
+                <div className="row" style={{margin:'50px 50px 20px 50px'}}>
                     <div className="column small-12">
-                    <div className="row expanded" >
-                        <div className="column small-12" style={{fontWeight:'bold'}}>
-                            Username
+                        <div className="row expanded" >
+                            <div className="column small-12" style={{fontWeight:'bold'}}>
+                                Username
+                            </div>
+                            <div className="column small-12" style={{marginBottom:'20px'}}>
+                                <TextField onChange={e => setUserName(e.target.value)} fullWidth id="outlined-basic" placeholder="input your username in here" variant="outlined" />
+                            </div>
+                            <div className="column small-12" style={{fontWeight:'bold'}}>
+                                Password
+                            </div>
+                            <div className="column small-12">
+                                <TextField onKeyUp={e=>{onKeyHandler(e)}} onChange={e => setPassword(e.target.value)} fullWidth id="outlined-basic" type="password" placeholder="input your password in here" variant="outlined" />
+                            </div>
                         </div>
-                        <div className="column small-12" style={{marginBottom:'20px'}}>
-                            <TextField onChange={e => setUserName(e.target.value)} fullWidth id="outlined-basic" placeholder="input your username in here" variant="outlined" />
-                        </div>
-                        <div className="column small-12" style={{fontWeight:'bold'}}>
-                            Password
-                        </div>
-                        <div className="column small-12">
-                            <TextField onKeyUp={e=>{onKeyHandler(e)}} onChange={e => setPassword(e.target.value)} fullWidth id="outlined-basic" type="password" placeholder="input your password in here" variant="outlined" />
-                        </div>
-                    </div>
-                      
                     </div>
                     
                 </div>
                 
-                
-                    <div className="row " style={{margin:'50px '}} >
-                        <div className="column small-12">
-                            <button onClick={()=>{loginClicked()}} className={classes.buttonStyle}>Login</button>
-                        </div>
+                <div className="row align-center">
+                    <div className={classes.registerLink + ' column shrink'} onClick={()=>registerCLicked()}>Click here to register</div>
+                </div>
+                <div className="row " style={{margin:'30px 50px 50px 50px'}} >
+                    <div className="column small-12">
+                        <button onClick={()=>{loginClicked()}} className={classes.buttonStyle}>Login</button>
                     </div>
+                </div>
             </Card>  
             <Snackbar open={successOpen} autoHideDuration={6000} >
                 <Alert severity="success">

@@ -16,7 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-// import PublishIcon from '@material-ui/icons/Publish';
+import PublishIcon from '@material-ui/icons/Publish';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import { ReactComponent as ArtUnselected } from "../assets/artSel.svg";
 import { ReactComponent as ArtSelected } from "../assets/artUnsel.svg";
@@ -26,6 +26,8 @@ import AdminArtsTable from '../components/AdminArtsTable';
 import AdminUsersTable from '../components/AdminUsersTable';
 import { useHistory } from 'react-router';
 import { clearUsers } from '../redux/actions/user.actions';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ArtAddComponent from '../components/ArtAddComponent';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -106,14 +108,16 @@ const AdminsPage = (props) => {
   const [sideBarIcons,setSideBarIcons] = useState([
     {
       selected:true,
-      selectedIcon:'art2',
-      unSelectedIcon:'art2'
+      iconKey:'art',
     },
     {
       selected:false,
-      selectedIcon:'user2',
-      unSelectedIcon:'user2'
+      iconKey:'user',
     },
+    {
+      selected:false,
+      iconKey:'upload',
+    }
     
   ])
   const [selectedDisplay,setSelectedDisplay]=useState('art')
@@ -130,11 +134,13 @@ const AdminsPage = (props) => {
       }
       return icon
     })
-    if(clickedIndex===0){
-      setSelectedDisplay('art')
-    }else{
-      setSelectedDisplay('user')
+    switch(clickedIndex){
+      case 0:setSelectedDisplay('art');break;
+      case 1:setSelectedDisplay('user');break;
+      case 2:setSelectedDisplay('upload');break;
+      default:setSelectedDisplay('art');break;
     }
+    
     setSideBarIcons(newArray)
   }
   const handleLogout = () =>{
@@ -144,13 +150,31 @@ const AdminsPage = (props) => {
     sessionStorage.clear()
     history.push('/')
   }
-  const getIconComponent = (currentIndex) =>{
-    switch(currentIndex){
-      case 0:break;
-      case 1:break;
-      case 2:break;
-      default:break;
+  const getDisplayComponent = (displayLabel) =>{
+    switch(displayLabel){
+      case 'art': return (<AdminArtsTable/>) ; 
+      case 'user': return (<AdminUsersTable/>); 
+      case 'upload' : return (<ArtAddComponent/>); 
+      default: return (<AdminArtsTable/>); 
     }
+  }
+  const getIconComponent = (iconObject,currentIndex) =>{
+    switch(currentIndex){
+        case 0: 
+          return (<SvgIcon>
+                    {iconObject.selected?<ArtSelected />:<ArtUnselected />}
+                  </SvgIcon>)
+        case 1:
+          return (<SvgIcon>
+                  {iconObject.selected?<UserSelected />:<UserUnselected />}
+                </SvgIcon>)
+        case 2:
+          return  (<ListItemIcon> <PublishIcon style={{color:iconObject.selected?'white':''}} /> </ListItemIcon>)
+        default:
+          return (<SvgIcon>
+                    {iconObject.selected?<ArtSelected />:<ArtUnselected />}
+                  </SvgIcon>)
+      }
   }
   return (
     <div className={classes.root}>
@@ -194,48 +218,26 @@ const AdminsPage = (props) => {
         <Divider />
         <List disablePadding="true">
           {sideBarIcons.map((singleObject, index) => (
-            <ListItem style={{backgroundColor:singleObject.selected?'#5C33F6':''}} button onClick={()=>{iconCLicked(index)}}  key={singleObject.selectedIcon}>
-            {index===0? 
-              <SvgIcon>
-                {singleObject.selected?<ArtSelected />:<ArtUnselected />}
-              </SvgIcon>
-            :<SvgIcon>
-                {singleObject.selected?<UserSelected />:<UserUnselected />}
-              </SvgIcon>
-            
-            }
+            <ListItem style={{backgroundColor:singleObject.selected?'#5C33F6':''}} button onClick={()=>{iconCLicked(index)}}  key={singleObject.iconKey}>
+              {getIconComponent(singleObject, index)}
             </ListItem>     
           ))}
         </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {selectedDisplay==='art'?
+        {/* {selectedDisplay==='art'?
         <AdminArtsTable/>:
         <AdminUsersTable/>
-        }
+        } */}
+          {getDisplayComponent(selectedDisplay)}
           
       </main>
     </div>
   );
 }
 
-// const AdminsPage = (props) => {
-//     useEffect(() => {
-//         console.log("tokennn",props.token)
-//         console.log("user_info",props.user_info)
-//         // returned function will be called on component unmount 
-//         return () => {
-//           alert('text')
-//           props.clearSessionStorage()
-//         }
-//       }, [])
-//     return (
-//         <div>
-//             AdminsPage
-//         </div>
-//     )
-// }
+
 const mapStateToProps = state => {
     return {
       user_info:state.session.user_info

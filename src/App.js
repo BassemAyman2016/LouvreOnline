@@ -1,5 +1,5 @@
 
-import React,{ useEffect } from "react"
+import React from "react"
 import "./App.css"
 import { connect } from "react-redux"
 import {
@@ -19,7 +19,7 @@ import {
   // Link
 } from "react-router-dom";
 import { Redirect } from 'react-router';
-
+import RegisterPage from "./pages/RegisterPage"
 
 const useStyles = makeStyles({ 
   'spinner-container':{
@@ -45,16 +45,17 @@ const useStyles = makeStyles({
 })
 function App(props) {
 
-  useEffect(() => {
-    // returned function will be called on component unmount 
-    return () => {
-      // alert('text')
-      // props.clearSessionStorage()
-    }
-  }, [])
+  // useEffect(() => {
+  //   // returned function will be called on component unmount 
+  //   return () => {
+  //     // alert('text')
+  //     // props.clearSessionStorage()
+  //   }
+  // }, [])
   const getComponent = (selectedRoute) =>{
     const isLogged = sessionStorage.getItem("accessToken")
     const userType = props.user_info&&props.user_info.type?props.user_info.type:null
+    //RegisterPage
     switch(selectedRoute){
       case "/":
         if(isLogged){
@@ -89,6 +90,16 @@ function App(props) {
           return <Redirect to="/"/>
         }
       // break;
+      case "/register":
+        if(isLogged){
+          if(userType==="ADMIN"){
+            return <Redirect to="/admins"/>
+          }else{
+            return <Redirect to="/guests"/>
+          }
+        }else{  
+          return <RegisterPage/>
+        }
       default: return <LoginPage/>
     }
   }
@@ -110,6 +121,7 @@ function App(props) {
 				<Route exact path="/" render={() => getComponent('/')} />
 				<Route exact path="/guests" render={() => getComponent('/guests')} />
 				<Route exact path="/admins" render={() => getComponent('/admins')} />
+				<Route exact path="/register" render={() => getComponent('/register')} />
 			</Router>
       <div>
         

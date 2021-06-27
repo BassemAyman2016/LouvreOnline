@@ -9,6 +9,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
 
         case SET_LOADER_FLAG:
+          console.log("in setLoaderFlag",action)
             return {
               ...state, 
               displayLoader: action.payload,

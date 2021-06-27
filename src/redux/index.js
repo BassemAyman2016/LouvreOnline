@@ -10,8 +10,10 @@ const persistConfig = {
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
+let store = createStore(persistedReducer, composeWithDevTools())
+
 const config = () => {
-    let store = createStore(persistedReducer, composeWithDevTools())
+    
     let persistor = persistStore(store)
     return { store, persistor }
 }
