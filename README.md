@@ -26,8 +26,8 @@ To run a dockerized image of the backend run `sudo docker-compose up` in the bac
     - POST `//=> user singup`
         - user_name
         - password
-        -user_role ("ADMIN" or "GUEST" only) 
-        -phone_number
+        - user_role ("ADMIN" or "GUEST" only) 
+        - phone_number
 
 - /users?page=`INTEGER`&size=`INTEGER`
     - GET `//=> get guests (admins only)`
@@ -37,17 +37,17 @@ To run a dockerized image of the backend run `sudo docker-compose up` in the bac
 
 - /art
     - POST `//=> create art instance (admins only)`
-        -name
-        -artist
-        -description
-        -picture (image URL)
+        - name
+        - artist
+        - description
+        - picture (image URL)
         
 - /art
     - PUT `//=> update art instance (admins only)`
-        -name
-        -artist
-        -description
-        -picture (image URL)
+        - name
+        - artist
+        - description
+        - picture (image URL)
         
 - /art?id=`INTEGER`
     - DELETE `//=> delete art instance (admins only)`
