@@ -1,0 +1,2 @@
+
+export const SET_LOADER_FLAG = 'SET_LOADER_FLAG';

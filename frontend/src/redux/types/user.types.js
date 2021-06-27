@@ -1,0 +1,5 @@
+export const SET_DISPLAY_USERS = 'SET_DISPLAY_USERS';
+
+export const SET_PAGE_USERS = 'SET_PAGE_USERS';
+
+export const CLEAR_USERS = 'CLEAR_USERS';
