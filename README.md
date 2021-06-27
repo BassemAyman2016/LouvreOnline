@@ -12,6 +12,9 @@
 
 Now the backend is running on the specified port
 
+#### Dockerized Backend
+To run a dockerized image of the backend run `sudo docker-compose up` in the backend folder
+
 # Endpoints
 
 - /login
