@@ -217,7 +217,7 @@ const ArtAddComponent = () => {
                                                     withIcon={false}
                                                     buttonText='Choose image to upload'
                                                     onChange={(e)=>handleImageSelect(e)}
-                                                    imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                                                    imgExtension={['.jpg', '.gif', '.png', '.gif','.jpeg']}
                                                     maxFileSize={5242880}
                                                 />
                                         </div>
