@@ -1,6 +1,6 @@
 # LouvreOnline
 
-Deployment link : https://louvre-online-frontend.herokuapp.com/
+Deployed project link : https://louvre-online-frontend.herokuapp.com/
 
 NB: For the commit history view the individual branches
 ## Setup for Local Testing
